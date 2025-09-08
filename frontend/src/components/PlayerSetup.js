@@ -11,6 +11,8 @@ function PlayerSetup() {
   const [selectedEmoji, setSelectedEmoji] = useState('');
   const [isConnecting, setIsConnecting] = useState(true);
   const [error, setError] = useState('');
+  const [copiedCode, setCopiedCode] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   const connectToGame = useCallback(async () => {
     try {
@@ -78,11 +80,15 @@ function PlayerSetup() {
 
   const copyGameCode = () => {
     navigator.clipboard.writeText(gameCode);
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 2000);
   };
 
   const copyGameLink = () => {
     const gameLink = `${window.location.origin}/join/${gameCode}`;
     navigator.clipboard.writeText(gameLink);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2000);
   };
 
   if (isConnecting) {
@@ -120,7 +126,7 @@ function PlayerSetup() {
   return (
     <div className="page-container">
       <h1 className="title">Player {playerId}</h1>
-      <p className="subtitle">Game Code: {gameCode}</p>
+      {/* <p className="subtitle">Game Code: {gameCode}</p> */}
       
       {gameState.gamePhase === 'waiting' && (
         <div>
@@ -131,11 +137,17 @@ function PlayerSetup() {
           </div>
 
           <div className="button-container">
-            <button className="primary-button" onClick={copyGameLink}>
-              Copy Link
+            <button 
+              className={`primary-button copy-button ${copiedLink ? 'copied' : ''}`}
+              onClick={copyGameLink}
+            >
+              {copiedLink ? 'Copied!' : 'Copy Link'}
             </button>
-            <button className="primary-button" onClick={copyGameCode}>
-              Copy Code
+            <button 
+              className={`primary-button copy-button ${copiedCode ? 'copied' : ''}`}
+              onClick={copyGameCode}
+            >
+              {copiedCode ? 'Copied!' : 'Copy Code'}
             </button>
           </div>
 

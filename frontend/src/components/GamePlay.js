@@ -157,7 +157,7 @@ function GamePlay() {
           </div>
         </div>
         <button className="primary-button" onClick={resetGame}>
-          Play Again
+            Home
         </button>
       </div>
     );
@@ -167,7 +167,7 @@ function GamePlay() {
     <div className="page-container">
       <div className="game-container">
         <h1 className="title">Round {gameState.roundNumber}</h1>
-        <p className="subtitle">Game Code: {gameCode}</p>
+        {/* <p className="subtitle">Game Code: {gameCode}</p> */}
         
         <div className="health-display">
           <div className="player-health">

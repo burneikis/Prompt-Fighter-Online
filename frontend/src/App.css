@@ -53,6 +53,12 @@
   transform: translateY(0);
 }
 
+.primary-button.copied {
+  background: linear-gradient(145deg, #1a3d1a, #2a5d2a);
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
 .secondary-button {
   background: transparent;
   color: #888;
@@ -284,4 +290,8 @@
   .page-container {
     padding: 1rem;
   }
+}
+
+.copy-button {
+  width: 160px;
 }
