@@ -295,3 +295,27 @@
 .copy-button {
   width: 160px;
 }
+
+.primary-button.submitted {
+  background: linear-gradient(145deg, #1a3d1a, #2a5d2a);
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
+.game-over-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.play-again-status {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  color: #4ade80;
+  font-size: 0.9rem;
+}

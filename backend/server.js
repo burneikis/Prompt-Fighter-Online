@@ -44,7 +44,11 @@ function createNewGame() {
     timerStartTime: null,
     roundNumber: 0,
     winner: null,
-    createdAt: Date.now()
+    createdAt: Date.now(),
+    playAgainRequests: {
+      player1: false,
+      player2: false
+    }
   };
 }
 
@@ -344,7 +348,8 @@ function getPublicGameState(playerId, gameCode) {
     roundNumber: game.roundNumber,
     winner: game.winner,
     timeRemaining: null,
-    gameCode: gameCode
+    gameCode: gameCode,
+    playAgainRequests: game.playAgainRequests
   };
 
   // Add player's own prompt
@@ -358,6 +363,54 @@ function getPublicGameState(playerId, gameCode) {
 
   return publicState;
 }
+
+// Play again endpoint
+app.post('/api/play-again/:gameCode/:playerId', (req, res) => {
+  const { gameCode, playerId } = req.params;
+  
+  if (playerId !== '1' && playerId !== '2') {
+    return res.status(400).json({ error: 'Invalid player ID' });
+  }
+
+  if (!games.has(gameCode.toUpperCase())) {
+    return res.status(404).json({ error: 'Game not found' });
+  }
+
+  const game = games.get(gameCode.toUpperCase());
+  
+  if (game.gamePhase !== 'game_over') {
+    return res.status(400).json({ error: 'Game not over yet' });
+  }
+
+  const playerKey = `player${playerId}`;
+  game.playAgainRequests[playerKey] = true;
+
+  // If both players want to play again, restart the game
+  if (game.playAgainRequests.player1 && game.playAgainRequests.player2) {
+    // Reset game state while keeping player connections and emojis
+    game.player1.health = 100;
+    game.player1.prompt = '';
+    game.player1.promptSubmitted = false;
+    game.player2.health = 100;
+    game.player2.prompt = '';
+    game.player2.promptSubmitted = false;
+    game.gamePhase = 'prompt_phase';
+    game.timer = null;
+    game.timerStartTime = null;
+    game.roundNumber = 0;
+    game.winner = null;
+    game.playAgainRequests.player1 = false;
+    game.playAgainRequests.player2 = false;
+    
+    // Start the first round
+    startPromptPhase(gameCode.toUpperCase());
+  }
+
+  res.json({ 
+    success: true, 
+    gameState: getPublicGameState(playerId, gameCode.toUpperCase())
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

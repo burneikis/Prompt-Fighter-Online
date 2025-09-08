@@ -13,6 +13,7 @@ function GamePlay() {
 
   const [currentRound, setCurrentRound] = useState(null);
   const [timerActive, setTimerActive] = useState(false);
+  const [playAgainRequested, setPlayAgainRequested] = useState(false);
 
   const pollGameState = useCallback(async () => {
     try {
@@ -69,13 +70,19 @@ function GamePlay() {
       setTimerActive(true);
       setPrompt('');
       setIsSubmitted(false);
+      setPlayAgainRequested(false);
     }
     
     // Stop timer when leaving prompt phase
     if (gameState?.gamePhase !== 'prompt_phase') {
       setTimerActive(false);
     }
-  }, [gameState?.gamePhase, gameState?.roundNumber, currentRound]);
+
+    // Reset play again requested when game restarts
+    if (gameState?.gamePhase === 'prompt_phase' && playAgainRequested) {
+      setPlayAgainRequested(false);
+    }
+  }, [gameState?.gamePhase, gameState?.roundNumber, currentRound, playAgainRequested]);
 
   // Separate effect for timer countdown
   useEffect(() => {
@@ -99,6 +106,21 @@ function GamePlay() {
 
     return () => clearInterval(interval);
   }, [timerActive, gameState?.timerStartTime, gameState?.gamePhase, isSubmitted, handleSubmitPrompt]);
+
+  const handlePlayAgain = useCallback(async () => {
+    if (playAgainRequested) return;
+    
+    setPlayAgainRequested(true);
+    
+    try {
+      await fetch(`${API_BASE_URL}/api/play-again/${gameCode}/${playerId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+    } catch (err) {
+      console.error('Failed to request play again:', err);
+    }
+  }, [playAgainRequested, gameCode, playerId]);
 
   const resetGame = async () => {
     try {
@@ -156,9 +178,29 @@ function GamePlay() {
             <div>{otherPlayer.health}/100 HP</div>
           </div>
         </div>
-        <button className="primary-button" onClick={resetGame}>
+        <div className="game-over-buttons">
+          <button 
+            className={`primary-button ${playAgainRequested || gameState.playAgainRequests[`player${playerId}`] ? 'submitted' : ''}`}
+            onClick={handlePlayAgain}
+            disabled={playAgainRequested || gameState.playAgainRequests[`player${playerId}`]}
+          >
+            {gameState.playAgainRequests[`player${playerId}`] ? 'Play Again Requested ✓' : 'Play Again'}
+          </button>
+          <button className="secondary-button" onClick={resetGame}>
             Home
-        </button>
+          </button>
+        </div>
+        
+        {(gameState.playAgainRequests?.player1 || gameState.playAgainRequests?.player2) && (
+          <div className="play-again-status">
+            {gameState.playAgainRequests?.player1 && gameState.playAgainRequests?.player2 ? 
+              'Both players want to play again! Starting new game...' :
+              gameState.playAgainRequests[`player${playerId}`] ?
+                'Waiting for opponent to accept...' :
+                'Your opponent wants to play again!'
+            }
+          </div>
+        )}
       </div>
     );
   }
