@@ -1,0 +1,213 @@
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #888;
+  font-weight: 300;
+}
+
+.button-container {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.primary-button {
+  background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+  color: #ffffff;
+  border: 1px solid #333;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.primary-button:hover {
+  background: linear-gradient(145deg, #2a2a2a, #3a3a3a);
+  border-color: #444;
+  transform: translateY(-1px);
+}
+
+.primary-button:active {
+  transform: translateY(0);
+}
+
+.secondary-button {
+  background: transparent;
+  color: #888;
+  border: 1px solid #333;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.secondary-button:hover {
+  color: #ffffff;
+  border-color: #555;
+}
+
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 1rem;
+  max-width: 500px;
+  margin: 2rem 0;
+}
+
+.emoji-button {
+  background: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 2rem;
+  transition: all 0.2s ease;
+  aspect-ratio: 1;
+}
+
+.emoji-button:hover {
+  border-color: #555;
+  background: #2a2a2a;
+}
+
+.emoji-button.selected {
+  border-color: #666;
+  background: #333;
+}
+
+.game-container {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.health-display {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 2rem;
+  align-items: center;
+}
+
+.player-health {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+  
+  /* Set width */
+  width: 200px;
+}
+
+.player-name {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.health-bar {
+  width: 100%;
+  height: 8px;
+  background: #333;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+  transition: width 0.3s ease;
+}
+
+.health-fill.low {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.prompt-area {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.prompt-input {
+  width: 100%;
+  background: #0a0a0a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 1rem;
+  color: #ffffff;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 120px;
+}
+
+.prompt-input:focus {
+  outline: none;
+  border-color: #555;
+}
+
+.timer {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+  color: #888;
+}
+
+.timer.warning {
+  color: #ef4444;
+}
+
+.winner-display {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #4ade80;
+}
+
+.status-message {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  color: #888;
+  display: none; /* Hidden by default */
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .button-container {
+    /* flex-direction: column; */
+    align-items: center;
+  }
+
+  .health-display {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .page-container {
+    padding: 1rem;
+  }
+}
