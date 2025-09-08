@@ -195,7 +195,25 @@
   margin: 1rem 0;
   padding: 0.5rem;
   color: #888;
-  display: none; /* Hidden by default */
+  display: none;
+}
+
+.evaluation-screen {
+  margin: 2rem 0;
+}
+
+.prompts-display {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.prompt-quote {
+  color: #ffffff;
+  font-size: 1rem;
+  /* margin: 0.8rem 0; */
+  padding-bottom: 1rem;
+  text-align: center;
+  line-height: 1.4;
 }
 
 .game-option {

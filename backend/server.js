@@ -356,6 +356,12 @@ function getPublicGameState(playerId, gameCode) {
   const playerKey = `player${playerId}`;
   publicState[playerKey].prompt = game[playerKey].prompt;
 
+  // During evaluation phase, include both prompts so players can see what their opponent submitted
+  if (game.gamePhase === 'evaluation') {
+    publicState.player1.prompt = game.player1.prompt;
+    publicState.player2.prompt = game.player2.prompt;
+  }
+
   // Add timer start time if in prompt phase
   if (game.gamePhase === 'prompt_phase' && game.timerStartTime) {
     publicState.timerStartTime = game.timerStartTime;

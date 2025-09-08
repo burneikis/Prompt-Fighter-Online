@@ -218,6 +218,11 @@ function GamePlay() {
         
         <div className="health-display">
           <div className="player-health">
+            {gameState.gamePhase === 'evaluation' && (
+              <div className="prompt-quote">
+                "{currentPlayer.prompt || '(No prompt submitted)'}"
+              </div>
+            )}
             <div className="player-name">
               {currentPlayer.emoji} Player {playerId} (You)
             </div>
@@ -230,6 +235,11 @@ function GamePlay() {
             <div>{currentPlayer.health}/100 HP</div>
           </div>
           <div className="player-health">
+            {gameState.gamePhase === 'evaluation' && (
+              <div className="prompt-quote">
+                "{otherPlayer.prompt || '(No prompt submitted)'}"
+              </div>
+            )}
             <div className="player-name">
               {otherPlayer.emoji} Player {playerId === '1' ? '2' : '1'}
             </div>
