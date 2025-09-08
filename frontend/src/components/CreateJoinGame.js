@@ -7,8 +7,6 @@ function CreateJoinGame() {
   const [gameCode, setGameCode] = useState('');
   const [error, setError] = useState('');
   const [isCreating, setIsCreating] = useState(false);
-  const [createdGameCode, setCreatedGameCode] = useState('');
-  const [showShare, setShowShare] = useState(false);
   const navigate = useNavigate();
 
   const createGame = async () => {
@@ -25,8 +23,19 @@ function CreateJoinGame() {
       }
       
       const data = await response.json();
-      setCreatedGameCode(data.gameCode);
-      setShowShare(true);
+      
+      // Automatically join as Player 1
+      const joinResponse = await fetch(`${API_BASE_URL}/api/join-game/${data.gameCode}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      if (!joinResponse.ok) {
+        throw new Error('Failed to join created game');
+      }
+      
+      const joinData = await joinResponse.json();
+      navigate(`/game/${data.gameCode}/${joinData.playerId}`);
     } catch (err) {
       setError('Failed to create game');
       setIsCreating(false);
@@ -58,66 +67,6 @@ function CreateJoinGame() {
     }
   };
 
-  const joinCreatedGame = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/join-game/${createdGameCode}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to join game');
-      }
-      
-      const data = await response.json();
-      navigate(`/game/${createdGameCode}/${data.playerId}`);
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const copyGameCode = () => {
-    navigator.clipboard.writeText(createdGameCode);
-  };
-
-  const copyGameLink = () => {
-    const gameLink = `${window.location.origin}/join/${createdGameCode}`;
-    navigator.clipboard.writeText(gameLink);
-  };
-
-  if (showShare) {
-    return (
-      <div className="page-container">
-        <h1 className="title">Game Created!</h1>
-        <p className="subtitle">Share this code with your opponent</p>
-        
-        <div className="game-code-display">
-          <div className="game-code">{createdGameCode}</div>
-        </div>
-
-        <div className="button-container">
-          <button className="primary-button" onClick={copyGameCode}>
-            Copy Code
-          </button>
-          <button className="primary-button" onClick={copyGameLink}>
-            Copy Link
-          </button>
-        </div>
-
-        <div className="button-container">
-          <button className="secondary-button" onClick={joinCreatedGame}>
-            Join Game
-          </button>
-          <button className="secondary-button" onClick={() => navigate('/')}>
-            Back to Home
-          </button>
-        </div>
-
-        {error && <div className="error-message">{error}</div>}
-      </div>
-    );
-  }
 
   return (
     <div className="page-container">
@@ -143,7 +92,7 @@ function CreateJoinGame() {
         <input
           type="text"
           className="game-code-input"
-          placeholder="Enter game code"
+          placeholder="CODE HERE"
           value={gameCode}
           onChange={(e) => setGameCode(e.target.value.toUpperCase())}
           maxLength={6}

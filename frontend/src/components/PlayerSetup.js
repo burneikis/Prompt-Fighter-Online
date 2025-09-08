@@ -76,6 +76,15 @@ function PlayerSetup() {
     }
   };
 
+  const copyGameCode = () => {
+    navigator.clipboard.writeText(gameCode);
+  };
+
+  const copyGameLink = () => {
+    const gameLink = `${window.location.origin}/join/${gameCode}`;
+    navigator.clipboard.writeText(gameLink);
+  };
+
   if (isConnecting) {
     return (
       <div className="page-container">
@@ -116,6 +125,20 @@ function PlayerSetup() {
       {gameState.gamePhase === 'waiting' && (
         <div>
           <p className="subtitle">Waiting for other player to join...</p>
+          
+          <div className="game-code-display">
+            <div className="game-code">{gameCode}</div>
+          </div>
+
+          <div className="button-container">
+            <button className="primary-button" onClick={copyGameLink}>
+              Copy Link
+            </button>
+            <button className="primary-button" onClick={copyGameCode}>
+              Copy Code
+            </button>
+          </div>
+
           <div className="status-message">
             Player 1: {gameState.player1.connected ? '✓ Connected' : '⏳ Waiting'}
             <br />
