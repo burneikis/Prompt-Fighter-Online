@@ -308,10 +308,10 @@ async function evaluateRound(gameCode) {
       game.winner = '1';
       game.gamePhase = 'game_over';
     } else {
-      // Continue to next round after a brief delay
+      // Continue to next round after a delay
       setTimeout(() => {
         startPromptPhase(gameCode);
-      }, 3000);
+      }, 5000);
     }
 
   } catch (error) {
@@ -322,7 +322,7 @@ async function evaluateRound(gameCode) {
     
     setTimeout(() => {
       startPromptPhase(gameCode);
-    }, 3000);
+    }, 5000);
   }
 }
 
