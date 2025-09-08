@@ -125,6 +125,11 @@ function PlayerSetup() {
 
   return (
     <div className="page-container">
+      <div style={{ position: 'absolute', top: '20px', left: '20px' }}>
+        <button className="secondary-button" onClick={() => navigate('/')}>
+          ← Back to Home
+        </button>
+      </div>
       <h1 className="title">Player {playerId}</h1>
       {/* <p className="subtitle">Game Code: {gameCode}</p> */}
       
