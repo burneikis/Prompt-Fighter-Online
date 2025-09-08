@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
 function GamePlay() {
-  const { playerId } = useParams();
+  const { gameCode, playerId } = useParams();
   const navigate = useNavigate();
   const [gameState, setGameState] = useState(null);
   const [prompt, setPrompt] = useState('');
@@ -16,7 +16,7 @@ function GamePlay() {
 
   const pollGameState = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/game-state/${playerId}`);
+      const response = await fetch(`${API_BASE_URL}/api/game-state/${gameCode}/${playerId}`);
       if (response.ok) {
         const data = await response.json();
         setGameState(data.gameState);
@@ -37,7 +37,7 @@ function GamePlay() {
     } catch (err) {
       console.error('Failed to poll game state:', err);
     }
-  }, [playerId, navigate]); 
+  }, [gameCode, playerId, navigate]); 
 
   const handleSubmitPrompt = useCallback(async () => {
     if (isSubmitted) return;
@@ -45,7 +45,7 @@ function GamePlay() {
     setIsSubmitted(true);
     
     try {
-      await fetch(`${API_BASE_URL}/api/submit-prompt/${playerId}`, {
+      await fetch(`${API_BASE_URL}/api/submit-prompt/${gameCode}/${playerId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt })
@@ -53,7 +53,7 @@ function GamePlay() {
     } catch (err) {
       console.error('Failed to submit prompt:', err);
     }
-  }, [isSubmitted, prompt, playerId]);
+  }, [isSubmitted, prompt, gameCode, playerId]);
 
   useEffect(() => {
     pollGameState();
@@ -167,6 +167,7 @@ function GamePlay() {
     <div className="page-container">
       <div className="game-container">
         <h1 className="title">Round {gameState.roundNumber}</h1>
+        <p className="subtitle">Game Code: {gameCode}</p>
         
         <div className="health-display">
           <div className="player-health">

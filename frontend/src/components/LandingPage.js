@@ -14,8 +14,8 @@ function LandingPage() {
       .catch(() => setBackendStatus('Failed to connect to backend'));
   }, []);
 
-  const handlePlayerSelect = (playerId) => {
-    navigate(`/player/${playerId}`);
+  const handlePlay = () => {
+    navigate('/create-join');
   };
 
   return (
@@ -26,15 +26,9 @@ function LandingPage() {
       <div className="button-container">
         <button 
           className="primary-button" 
-          onClick={() => handlePlayerSelect(1)}
+          onClick={handlePlay}
         >
-          Player 1
-        </button>
-        <button 
-          className="primary-button" 
-          onClick={() => handlePlayerSelect(2)}
-        >
-          Player 2
+          Play
         </button>
       </div>
 

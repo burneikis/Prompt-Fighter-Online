@@ -5,7 +5,7 @@ const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
 const EMOJI_OPTIONS = ['⚔️', '🛡️', '🔥', '❄️', '⚡', '🌟', '💎', '🎯', '🏹', '🔮', '🗡️', '🛸', '🐉', '🦅', '🐺', '🦄'];
 
 function PlayerSetup() {
-  const { playerId } = useParams();
+  const { gameCode, playerId } = useParams();
   const navigate = useNavigate();
   const [gameState, setGameState] = useState(null);
   const [selectedEmoji, setSelectedEmoji] = useState('');
@@ -14,7 +14,7 @@ function PlayerSetup() {
 
   const connectToGame = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/connect/${playerId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/connect/${gameCode}/${playerId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -30,11 +30,11 @@ function PlayerSetup() {
       setError('Failed to connect to game');
       setIsConnecting(false);
     }
-  }, [playerId]);
+  }, [gameCode, playerId]);
 
   const pollGameState = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/game-state/${playerId}`);
+      const response = await fetch(`${API_BASE_URL}/api/game-state/${gameCode}/${playerId}`);
       if (response.ok) {
         const data = await response.json();
         setGameState(data.gameState);
@@ -42,24 +42,24 @@ function PlayerSetup() {
     } catch (err) {
       console.error('Failed to poll game state:', err);
     }
-  }, [playerId]);
+  }, [gameCode, playerId]);
 
   useEffect(() => {
     connectToGame();
     const interval = setInterval(pollGameState, 1000);
     return () => clearInterval(interval);
-  }, [playerId, connectToGame, pollGameState]);
+  }, [gameCode, playerId, connectToGame, pollGameState]);
 
   useEffect(() => {
     if (gameState?.gamePhase === 'prompt_phase') {
-      navigate(`/game/${playerId}`);
+      navigate(`/play/${gameCode}/${playerId}`);
     }
-  }, [gameState, playerId, navigate]);
+  }, [gameState, gameCode, playerId, navigate]);
 
   const selectEmoji = async (emoji) => {
     setSelectedEmoji(emoji);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/select-emoji/${playerId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/select-emoji/${gameCode}/${playerId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ emoji })
@@ -111,6 +111,7 @@ function PlayerSetup() {
   return (
     <div className="page-container">
       <h1 className="title">Player {playerId}</h1>
+      <p className="subtitle">Game Code: {gameCode}</p>
       
       {gameState.gamePhase === 'waiting' && (
         <div>
