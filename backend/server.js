@@ -1,16 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const evaluatePrompts = require('./llm').evaluatePrompts;
 require('dotenv').config();
-
-// Conditionally load LLM module (Phase 4 integration)
-let evaluatePrompts = null;
-try {
-  if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== 'your_openai_api_key_here') {
-    evaluatePrompts = require('./llm').evaluatePrompts;
-  }
-} catch (error) {
-  console.log('LLM module not available - using default evaluation');
-}
 
 const app = express();
 const PORT = process.env.PORT || 3001;

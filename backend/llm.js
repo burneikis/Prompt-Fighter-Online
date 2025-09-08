@@ -1,4 +1,5 @@
 const OpenAI = require('openai');
+require('dotenv').config();
 
 const SYSTEM_PROMPT = `
 You are a battle evaluator for a prompt fighting game. Two players have emojis and write prompts to attack the opponent's emoji.
@@ -16,8 +17,6 @@ Rules:
 
 - "player1_damage" = damage that Player 1's prompt deals TO Player 2
 - "player2_damage" = damage that Player 2's prompt deals TO Player 1
-
-DO NOT allow a draw
 `;
 
 const USER_PROMPT_TEMPLATE = (player1Emoji, player1Prompt, player2Emoji, player2Prompt) => `
