@@ -264,7 +264,7 @@ function GamePlay() {
               className="prompt-input"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Write your prompt here. You can attack your opponent's emoji or heal your own..."
+              placeholder="Write your prompt here. Attack your opponent's emoji..."
               disabled={isSubmitted}
             />
             

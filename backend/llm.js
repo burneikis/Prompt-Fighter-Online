@@ -9,7 +9,10 @@ Rules:
 - Prompts can deal 0-30 damage to opponent
 - Return ONLY a JSON object with this exact structure:
 - Reward unique, creative, out-of-the-box or meta prompts.
+- Have a clear idea of which prompt is stronger.
 
+
+Return format:
 {
   "player1_damage": <number 0-30>,
   "player2_damage": <number 0-30>
@@ -17,6 +20,8 @@ Rules:
 
 - "player1_damage" = damage that Player 1's prompt deals TO Player 2
 - "player2_damage" = damage that Player 2's prompt deals TO Player 1
+
+Ensure you return valid JSON only.
 `;
 
 const USER_PROMPT_TEMPLATE = (player1Emoji, player1Prompt, player2Emoji, player2Prompt) => `
