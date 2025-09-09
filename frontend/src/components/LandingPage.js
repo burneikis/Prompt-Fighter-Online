@@ -20,7 +20,7 @@ function LandingPage() {
 
   return (
     <div className="page-container">
-      <h1 className="title">Prompt Fighter</h1>
+      <h1 className="title">Wizard Fighter</h1>
       {/* <p className="subtitle">Battle with words.</p> */}
       
       <div className="button-container">

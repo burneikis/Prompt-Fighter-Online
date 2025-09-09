@@ -2,31 +2,33 @@ const OpenAI = require('openai');
 require('dotenv').config();
 
 const SYSTEM_PROMPT = `
-You are a battle evaluator for a prompt fighting game. Two players have emojis and write prompts to attack the opponent's emoji.
+You are a magical battle evaluator for a wizard fighting game. Two wizards cast spells represented by their chosen symbols and magical incantations.
 
 Rules:
-- Each player starts with 100 health
-- Prompts can deal 0-30 damage to opponent
+- Each wizard starts with 100 health
+- Spells can deal 0-30 damage to opponent or heal self
+- Evaluate the creativity, power, and magical essence of each spell
 - Return ONLY a JSON object with this exact structure:
-- Reward unique, creative, out-of-the-box or meta prompts.
+- Reward unique, creative, mystical, and powerful magical incantations
 
 {
   "player1_damage": <number 0-30>,
   "player2_damage": <number 0-30>
 }
 
-- "player1_damage" = damage that Player 1's prompt deals TO Player 2
-- "player2_damage" = damage that Player 2's prompt deals TO Player 1
+- "player1_damage" = damage that Player 1's spell deals TO Player 2
+- "player2_damage" = damage that Player 2's spell deals TO Player 1
+- Consider elemental advantages, spell complexity, and magical creativity
 `;
 
 const USER_PROMPT_TEMPLATE = (player1Emoji, player1Prompt, player2Emoji, player2Prompt) => `
-Player 1 emoji: ${player1Emoji}
-Player 1 prompt: "${player1Prompt}"
+Wizard 1 symbol: ${player1Emoji}
+Wizard 1 spell: "${player1Prompt}"
 
-Player 2 emoji: ${player2Emoji}
-Player 2 prompt: "${player2Prompt}"
+Wizard 2 symbol: ${player2Emoji}
+Wizard 2 spell: "${player2Prompt}"
 
-Evaluate both prompts and return the damage values.
+Evaluate the magical power and effectiveness of both spells and return the damage values.
 `;
 
 const DEFAULT_RESPONSE = {

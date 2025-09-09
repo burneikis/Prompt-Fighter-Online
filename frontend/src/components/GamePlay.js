@@ -264,7 +264,7 @@ function GamePlay() {
               className="prompt-input"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Write your prompt here. You can attack your opponent's emoji or heal your own..."
+              placeholder="Cast your spell! Describe your magical attack or healing incantation..."
               disabled={isSubmitted}
             />
             
@@ -274,19 +274,19 @@ function GamePlay() {
                 onClick={handleSubmitPrompt}
                 disabled={isSubmitted}
               >
-                {isSubmitted ? 'Submitted ✓' : 'Submit Prompt'}
+                {isSubmitted ? 'Spell Cast ✓' : 'Cast Spell'}
               </button>
             </div>
 
             <div className="status-message">
               {isSubmitted && !otherPlayer.promptSubmitted && 
-                'Waiting for opponent to submit their prompt...'
+                'Waiting for opponent to cast their spell...'
               }
               {isSubmitted && otherPlayer.promptSubmitted && 
-                'Both prompts submitted. Evaluating...'
+                'Both spells cast. Magic is colliding...'
               }
               {!isSubmitted && 
-                'Write a prompt to attack your opponent or heal yourself!'
+                'Channel your magic to attack your opponent or heal yourself!'
               }
             </div>
           </div>
@@ -294,8 +294,8 @@ function GamePlay() {
 
         {gameState.gamePhase === 'evaluation' && (
           <div className="status-message">
-            <h2>Evaluating prompts...</h2>
-            <p>Results will be shown shortly!</p>
+            <h2>Spells are clashing...</h2>
+            <p>The arcane energies will reveal their effects shortly!</p>
           </div>
         )}
       </div>

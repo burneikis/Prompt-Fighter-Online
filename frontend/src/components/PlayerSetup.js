@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const API_BASE_URL = process.env.REACT_APP_BACKEND_URL;
-const EMOJI_OPTIONS = ['⚔️', '🛡️', '🔥', '❄️', '⚡', '🌟', '💎', '💀', '🏹', '🔮', '🗡️', '🛸', '🐉', '🦅', '🐺', '🦄'];
+const EMOJI_OPTIONS = ['🧙', '🔮', '⚡', '🔥', '❄️', '🌟', '💎', '🪄', '🧪', '📜', '🕯️', '🌙', '☄️', '🌊', '🌪️', '🦉'];
 
 function PlayerSetup() {
   const { gameCode, playerId } = useParams();
@@ -166,7 +166,7 @@ function PlayerSetup() {
 
       {gameState.gamePhase === 'emoji_selection' && (
         <div>
-          <p className="subtitle">Choose your fighter emoji</p>
+          <p className="subtitle">Choose your wizard</p>
           
           <div className="emoji-grid">
             {EMOJI_OPTIONS.map((emoji) => (
