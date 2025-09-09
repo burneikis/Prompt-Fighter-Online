@@ -216,13 +216,19 @@ function GamePlay() {
         <h1 className="title">Round {gameState.roundNumber}</h1>
         {/* <p className="subtitle">Game Code: {gameCode}</p> */}
         
+        {gameState.gamePhase === 'evaluation' && (
+          <div className="prompt-quotes-display">
+            <div className="prompt-quote">
+              "{currentPlayer.prompt || 'nothing...'}"
+            </div>
+            <div className="prompt-quote">
+              "{otherPlayer.prompt || 'nothing...'}"
+            </div>
+          </div>
+        )}
+
         <div className="health-display">
           <div className="player-health">
-            {gameState.gamePhase === 'evaluation' && (
-              <div className="prompt-quote">
-                "{currentPlayer.prompt || 'nothing...'}"
-              </div>
-            )}
             <div className="player-name">
               {currentPlayer.emoji} Player {playerId} (You)
             </div>
@@ -235,11 +241,6 @@ function GamePlay() {
             <div>{currentPlayer.health}/100 HP</div>
           </div>
           <div className="player-health">
-            {gameState.gamePhase === 'evaluation' && (
-              <div className="prompt-quote">
-                "{otherPlayer.prompt || 'nothing...'}"
-              </div>
-            )}
             <div className="player-name">
               {otherPlayer.emoji} Player {playerId === '1' ? '2' : '1'}
             </div>
