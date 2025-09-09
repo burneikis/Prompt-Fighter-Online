@@ -220,7 +220,7 @@ function GamePlay() {
           <div className="player-health">
             {gameState.gamePhase === 'evaluation' && (
               <div className="prompt-quote">
-                "{currentPlayer.prompt || '(No prompt submitted)'}"
+                "{currentPlayer.prompt || 'nothing...'}"
               </div>
             )}
             <div className="player-name">
@@ -237,7 +237,7 @@ function GamePlay() {
           <div className="player-health">
             {gameState.gamePhase === 'evaluation' && (
               <div className="prompt-quote">
-                "{otherPlayer.prompt || '(No prompt submitted)'}"
+                "{otherPlayer.prompt || 'nothing...'}"
               </div>
             )}
             <div className="player-name">
